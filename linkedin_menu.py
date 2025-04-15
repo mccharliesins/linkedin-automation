@@ -166,20 +166,40 @@ class ContentGenerator:
             logger.error(f"Request failed: {str(e)}")
             raise
 
+    def generate_topic_options(self, base_topic):
+        """Generate 5 interesting topic options based on the base topic."""
+        prompt = f"""Generate 5 unique and engaging LinkedIn post topics about {base_topic} in the tech industry.
+        Each topic should:
+        - Be specific and focused
+        - Include a catchy title
+        - Be relevant to full-stack developers
+        - Be current and trending
+        - Include 1-2 relevant emojis
+        
+        Format the response as a numbered list with each topic on a new line.
+        Example:
+        1. 🚀 The Future of Web Development: What's Next?
+        2. 💡 5 Game-Changing Tools Every Developer Should Know
+        
+        Return only the numbered list, no additional text."""
+        
+        response = self._make_request(prompt)
+        topics = response['candidates'][0]['content']['parts'][0]['text'].strip().split('\n')
+        return [topic.strip() for topic in topics if topic.strip()]
+
     def generate_content(self, topic):
         """Generate engaging tech-focused content for the post."""
-        prompt = f"""Write a LinkedIn post about {topic} in the tech industry.
+        prompt = f"""Write a LinkedIn post about this topic: {topic}
         The post should:
         - Be under 200 words
-        - Focus on technical insights, experiences, or lessons learned
+        - Start with a hook that grabs attention
         - Include 2-3 relevant emojis
-        - Be written from a full-stack developer's perspective
+        - Share personal experiences or insights
         - Include practical examples or code snippets
-        - Share personal experiences or challenges
-        - End with a technical question to encourage discussion
+        - End with a thought-provoking question
+        - Be written from a full-stack developer's perspective
         - Use plain text only (no markdown or special formatting)
-        - Start with an engaging opening line
-        - Be concise and to the point
+        - Be concise and engaging
         
         Return only the post content with emojis, no additional text."""
         
@@ -206,20 +226,36 @@ def main():
                 for i, topic in enumerate(content_generator.tech_topics, 1):
                     print(f"{i}. {topic}")
                 
-                # Get topic from user
-                topic_choice = input("\nEnter the number of your topic (or type your own): ").strip()
+                # Get base topic from user
+                topic_choice = input("\nEnter the number of your base topic (or type your own): ").strip()
                 if topic_choice.isdigit() and 1 <= int(topic_choice) <= len(content_generator.tech_topics):
-                    topic = content_generator.tech_topics[int(topic_choice) - 1]
+                    base_topic = content_generator.tech_topics[int(topic_choice) - 1]
                 else:
-                    topic = topic_choice
+                    base_topic = topic_choice
 
-                if not topic:
+                if not base_topic:
                     print("Topic cannot be empty. Please try again.")
                     continue
 
+                # Generate topic options
+                print("\nGenerating interesting topic options...")
+                topic_options = content_generator.generate_topic_options(base_topic)
+                
+                # Display topic options
+                print("\nGenerated Topic Options:")
+                for i, topic in enumerate(topic_options, 1):
+                    print(f"{i}. {topic}")
+                
+                # Let user select a topic
+                selected_topic = input("\nEnter the number of the topic you want to use (or type your own): ").strip()
+                if selected_topic.isdigit() and 1 <= int(selected_topic) <= len(topic_options):
+                    final_topic = topic_options[int(selected_topic) - 1]
+                else:
+                    final_topic = selected_topic
+
                 # Generate content
                 print("\nGenerating content...")
-                content = content_generator.generate_content(topic)
+                content = content_generator.generate_content(final_topic)
                 print(f"\nGenerated content:\n{content}")
                 
                 # Ask if user wants to include a URL
