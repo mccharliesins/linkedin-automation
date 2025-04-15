@@ -132,6 +132,12 @@ class ContentGenerator:
     def __init__(self, api_key):
         self.api_key = api_key
         self.api_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
+        self.tech_topics = [
+            "Web Development", "Cloud Computing", "DevOps", "AI/ML", 
+            "Cybersecurity", "Blockchain", "Data Science", "Mobile Development",
+            "Software Architecture", "Programming Languages", "Database Systems",
+            "API Development", "Microservices", "System Design", "Cloud Native"
+        ]
 
     def _make_request(self, prompt):
         """Make a request to Gemini API."""
@@ -160,26 +166,22 @@ class ContentGenerator:
             logger.error(f"Request failed: {str(e)}")
             raise
 
-    def generate_title(self, topic):
-        """Generate an attention-grabbing title for the post."""
-        prompt = f"""Generate a compelling, attention-grabbing title for a LinkedIn post about {topic}.
-        The title should be under 10 words and follow Mark Manson's direct, no-nonsense style.
-        Return only the title, no additional text."""
-        
-        response = self._make_request(prompt)
-        return response['candidates'][0]['content']['parts'][0]['text'].strip()
-
-    def generate_content(self, topic, title):
-        """Generate engaging content for the post."""
-        prompt = f"""Write a LinkedIn post about {topic} with the title "{title}".
+    def generate_content(self, topic):
+        """Generate engaging tech-focused content for the post."""
+        prompt = f"""Write a LinkedIn post about {topic} in the tech industry.
         The post should:
         - Be under 200 words
-        - Follow Mark Manson's direct, honest, and slightly provocative writing style
-        - Include a clear point or lesson
-        - Be engaging and thought-provoking
-        - End with a question to encourage discussion
+        - Focus on technical insights, experiences, or lessons learned
+        - Include 2-3 relevant emojis
+        - Be written from a full-stack developer's perspective
+        - Include practical examples or code snippets
+        - Share personal experiences or challenges
+        - End with a technical question to encourage discussion
+        - Use plain text only (no markdown or special formatting)
+        - Start with an engaging opening line
+        - Be concise and to the point
         
-        Return only the post content, no additional text."""
+        Return only the post content with emojis, no additional text."""
         
         response = self._make_request(prompt)
         return response['candidates'][0]['content']['parts'][0]['text'].strip()
@@ -190,28 +192,34 @@ def main():
     content_generator = ContentGenerator(os.getenv('GOOGLE_API_KEY'))
 
     while True:
-        print("\nLinkedIn Content Creator")
-        print("1. Create and post content")
-        print("2. Exit")
+        print("\nLinkedIn Tech Content Creator")
+        print("1. Create and post tech content")
+        print("2. Validate Token")
+        print("3. Exit")
         
-        choice = input("\nEnter your choice (1-2): ")
+        choice = input("\nEnter your choice (1-3): ")
         
         if choice == "1":
             try:
+                # Display available tech topics
+                print("\nAvailable Tech Topics:")
+                for i, topic in enumerate(content_generator.tech_topics, 1):
+                    print(f"{i}. {topic}")
+                
                 # Get topic from user
-                topic = input("\nEnter the topic for your post: ").strip()
+                topic_choice = input("\nEnter the number of your topic (or type your own): ").strip()
+                if topic_choice.isdigit() and 1 <= int(topic_choice) <= len(content_generator.tech_topics):
+                    topic = content_generator.tech_topics[int(topic_choice) - 1]
+                else:
+                    topic = topic_choice
+
                 if not topic:
                     print("Topic cannot be empty. Please try again.")
                     continue
 
-                # Generate title
-                print("\nGenerating title...")
-                title = content_generator.generate_title(topic)
-                print(f"\nGenerated title: {title}")
-                
                 # Generate content
                 print("\nGenerating content...")
-                content = content_generator.generate_content(topic, title)
+                content = content_generator.generate_content(topic)
                 print(f"\nGenerated content:\n{content}")
                 
                 # Ask if user wants to include a URL
@@ -225,9 +233,7 @@ def main():
                 if confirm == 'y':
                     # Post to LinkedIn
                     response = linkedin_client.submit_share(
-                        text=f"{title}\n\n{content}",
-                        title=title if url else None,
-                        description=content if url else None,
+                        text=content,
                         url=url
                     )
                     print("\nPost successfully created!")
@@ -240,6 +246,15 @@ def main():
                 logger.error(f"Error in content creation: {str(e)}")
         
         elif choice == "2":
+            try:
+                if linkedin_client.validate_token():
+                    print("\nToken is valid!")
+                else:
+                    print("\nToken validation failed. Please run linkedin_auth.py to get a new token.")
+            except Exception as e:
+                print(f"\nError validating token: {str(e)}")
+        
+        elif choice == "3":
             print("\nGoodbye!")
             break
         
