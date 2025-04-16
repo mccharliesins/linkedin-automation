@@ -182,7 +182,22 @@ class ArticleGenerator:
         Return only the formatted post text."""
         
         response = self._make_request(prompt)
-        return response['candidates'][0]['content']['parts'][0]['text'].strip()
+        content = response['candidates'][0]['content']['parts'][0]['text'].strip()
+        
+        # Remove any asterisks from the content
+        content = content.replace('*', '')
+        
+        # Remove prefix labels like "Story:", "Curious:", etc.
+        content_lines = content.split('\n')
+        if content_lines and any(content_lines[0].startswith(label) for label in ['Story:', 'Curious:', 'Bold:', 'Relatable:', 'Contrarian:', 'Metric:', 'Question:', 'Revelation:']):
+            content_lines[0] = content_lines[0].split(':', 1)[1].strip()
+            content = '\n'.join(content_lines)
+        
+        # Add title if it's not already the first line
+        if not content.startswith(topic):
+            content = f"{topic}\n\n{content}"
+        
+        return content
 
 class AutoPoster:
     """Handles automatic posting with random intervals."""
@@ -249,43 +264,100 @@ def main():
         choice = input("\nEnter your choice (1-3): ")
         
         if choice == "1":
-            try:
-                # Generate viral topic
-                print("\nGenerating viral topic...")
-                topic = article_generator.generate_viral_topic()
-                print(f"\nGenerated Topic:\n{topic}")
+            while True:
+                print("\nTopic Generation Options:")
+                print("1. Generate a viral topic")
+                print("2. Enter your own topic")
+                print("3. Back to main menu")
                 
-                # Confirm topic
-                confirm = input("\nWould you like to use this topic? (y/n): ").lower()
-                if confirm != 'y':
-                    custom_topic = input("\nEnter your own topic: ").strip()
-                    if custom_topic:
-                        topic = custom_topic
+                topic_choice = input("\nEnter your choice (1-3): ")
                 
-                # Generate article
-                print("\nGenerating content...")
-                article = article_generator.generate_article(topic)
-                print(f"\nGenerated Content:\n{article}")
+                if topic_choice == "1":
+                    while True:
+                        topic = article_generator.generate_viral_topic()
+                        print(f"\nGenerated topic: {topic}")
+                        print("\nDo you want to use this topic?")
+                        print("1. Yes, use this topic")
+                        print("2. No, generate another")
+                        print("3. Back to topic options")
+                        
+                        approve_choice = input("\nEnter your choice (1-3): ")
+                        
+                        if approve_choice == "1":
+                            post_choice = None
+                            while True:
+                                try:
+                                    article = article_generator.generate_article(topic)
+                                    print(f"\nGenerated article:\n{article}")
+                                    print("\nWhat would you like to do?")
+                                    print("1. Post this article")
+                                    print("2. Generate another article on this topic")
+                                    print("3. Go back to topic selection")
+                                    
+                                    post_choice = input("\nEnter your choice (1-3): ")
+                                    
+                                    if post_choice == "1":
+                                        response = linkedin_client.submit_share(text=article)
+                                        print(f"\nPost created successfully! Post ID: {response['updateKey']}")
+                                        break
+                                    elif post_choice == "2":
+                                        continue
+                                    elif post_choice == "3":
+                                        break
+                                    else:
+                                        print("\nInvalid choice. Please try again.")
+                                except Exception as e:
+                                    print(f"\nError creating post: {str(e)}")
+                                    break
+                            if post_choice in ["1", "3"]:
+                                break
+                        elif approve_choice == "2":
+                            continue
+                        elif approve_choice == "3":
+                            break
+                        else:
+                            print("\nInvalid choice. Please try again.")
+                    
+                elif topic_choice == "2":
+                    topic = input("\nEnter your topic: ")
+                    post_choice = None
+                    while True:
+                        try:
+                            article = article_generator.generate_article(topic)
+                            print(f"\nGenerated article:\n{article}")
+                            print("\nWhat would you like to do?")
+                            print("1. Post this article")
+                            print("2. Generate another article on this topic")
+                            print("3. Go back to topic selection")
+                            
+                            post_choice = input("\nEnter your choice (1-3): ")
+                            
+                            if post_choice == "1":
+                                response = linkedin_client.submit_share(text=article)
+                                print(f"\nPost created successfully! Post ID: {response['updateKey']}")
+                                break
+                            elif post_choice == "2":
+                                continue
+                            elif post_choice == "3":
+                                break
+                            else:
+                                print("\nInvalid choice. Please try again.")
+                        except Exception as e:
+                            print(f"\nError creating post: {str(e)}")
+                            break
+                    if post_choice in ["1", "3"]:
+                        break
                 
-                # Confirm posting
-                confirm = input("\nDo you want to post this content? (y/n): ").lower()
-                if confirm == 'y':
-                    # Post to LinkedIn
-                    response = linkedin_client.submit_share(text=article)
-                    print("\nPost successfully created!")
-                    print(f"Post ID: {response['updateKey']}")
+                elif topic_choice == "3":
+                    break
                 else:
-                    print("\nPost cancelled.")
-                
-            except Exception as e:
-                print(f"\nError: {str(e)}")
-                logger.error(f"Error in content creation: {str(e)}")
+                    print("\nInvalid choice. Please try again.")
         
         elif choice == "2":
             auto_poster.start_auto_posting()
         
         elif choice == "3":
-            print("\nGoodbye!")
+            print("\nExiting...")
             break
         
         else:
