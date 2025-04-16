@@ -42,19 +42,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Generate random delay
-        id: random
-        run: |
-          # Generate random number between 0 and 95 (96 minutes - 1 minute)
-          RANDOM_DELAY=$((RANDOM % 96))
-          echo "delay=$RANDOM_DELAY" >> $GITHUB_OUTPUT
-          echo "Will wait for $RANDOM_DELAY minutes before posting..."
-
-      - name: Wait for random time
-        run: |
-          echo "Waiting for ${{ steps.random.outputs.delay }} minutes..."
-          sleep $(({{ steps.random.outputs.delay }} * 60))
-
       - name: Run Automatic Poster
         env:
           LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
