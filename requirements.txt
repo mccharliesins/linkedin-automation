@@ -7,7 +7,6 @@ websockets
 python-linkedin-v2
 chromadb
 autogen
-retrieve-chat
 numpy
 sounddevice
 pydub
