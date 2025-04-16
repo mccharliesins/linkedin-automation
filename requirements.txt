@@ -1,14 +1,7 @@
-google-generativeai
 python-dotenv
 requests
+google-generativeai
 schedule
-pyaudio
-websockets
 python-linkedin-v2
-chromadb
-autogen
-numpy
-sounddevice
-pydub
 python-dateutil
 pytz
