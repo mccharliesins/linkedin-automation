@@ -1,4 +1,4 @@
-name: LinkedIn Auto Poster
+name: LinkedIn Automation
 
 on:
   schedule:
@@ -29,3 +29,9 @@ jobs:
           LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
         run: python auto_poster.py --single-post
+
+      - name: Run Comment Responder
+        env:
+          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+        run: python linkedin_commentor.py
