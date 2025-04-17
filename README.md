@@ -5,10 +5,10 @@ An automated system for generating and posting LinkedIn content using GitHub Act
 ## Features
 
 - Automated content generation using AI
-- Scheduled posting to LinkedIn with completely randomized timing
+- Scheduled posting to LinkedIn
 - Different posting schedules for each day of the week
 - Comment monitoring and management
-- Natural posting pattern with random intervals
+- Randomized posting times for natural appearance
 
 ## Prerequisites
 
@@ -44,43 +44,42 @@ pip install -r requirements.txt
 
 ## Posting Schedule
 
-The automation runs 10 times per day with completely randomized times for each day of the week. This creates a natural posting pattern that doesn't follow any fixed schedule:
+The automation runs 10 times per day, with different times for each day of the week:
 
-### Monday (UTC)
+### Monday
 
-- 03:17, 06:42, 09:08, 11:53, 14:27, 16:11, 18:38, 20:22, 22:49, 23:05
+- Posts at :15 past these hours (UTC):
+- 02:15, 05:15, 07:15, 09:15, 11:15, 13:15, 15:15, 17:15, 19:15, 21:15
 
-### Tuesday (UTC)
+### Tuesday
 
-- 02:31, 05:57, 07:19, 10:44, 13:03, 15:36, 17:51, 19:07, 21:29, 23:46
+- Posts at :30 past these hours (UTC):
+- 03:30, 06:30, 08:30, 10:30, 12:30, 14:30, 16:30, 18:30, 20:30, 22:30
 
-### Wednesday (UTC)
+### Wednesday
 
-- 01:23, 04:48, 07:12, 09:37, 12:55, 15:14, 17:41, 20:09, 22:33, 23:58
+- Posts at :45 past these hours (UTC):
+- 01:45, 04:45, 07:45, 09:45, 11:45, 13:45, 16:45, 18:45, 20:45, 23:45
 
-### Thursday (UTC)
+### Thursday
 
-- 02:16, 04:43, 07:07, 10:52, 13:28, 16:13, 18:39, 20:21, 22:47, 23:04
+- Posts at :20 past these hours (UTC):
+- 02:20, 05:20, 08:20, 10:20, 12:20, 14:20, 17:20, 19:20, 21:20, 23:20
 
-### Friday (UTC)
+### Friday
 
-- 01:26, 03:54, 06:18, 09:45, 12:02, 14:35, 16:50, 19:06, 21:31, 23:59
+- Posts at :10 past these hours (UTC):
+- 03:10, 06:10, 08:10, 10:10, 12:10, 15:10, 17:10, 19:10, 21:10, 22:10
 
-### Saturday (UTC)
+### Saturday
 
-- 02:24, 04:51, 07:15, 10:40, 13:01, 15:34, 17:53, 20:08, 22:32, 23:57
+- Posts at :25 past these hours (UTC):
+- 01:25, 04:25, 07:25, 09:25, 11:25, 14:25, 16:25, 18:25, 20:25, 22:25
 
-### Sunday (UTC)
+### Sunday
 
-- 01:20, 03:46, 06:11, 09:38, 11:56, 14:15, 16:42, 19:03, 21:30, 23:55
-
-Each day has:
-
-- 10 completely random posting times
-- No fixed intervals between posts
-- Different minutes for each post
-- Varied distribution throughout the day
-- Natural, unpredictable pattern
+- Posts at :40 past these hours (UTC):
+- 02:40, 05:40, 08:40, 10:40, 12:40, 13:40, 15:40, 17:40, 19:40, 21:40
 
 ## Files Description
 
