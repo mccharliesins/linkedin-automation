@@ -2,89 +2,26 @@ name: Automatic LinkedIn Poster
 
 on:
   schedule:
-    # Monday - completely random times
-    - cron: "17 3 * * 1"
-    - cron: "42 6 * * 1"
-    - cron: "08 9 * * 1"
-    - cron: "53 11 * * 1"
-    - cron: "27 14 * * 1"
-    - cron: "11 16 * * 1"
-    - cron: "38 18 * * 1"
-    - cron: "22 20 * * 1"
-    - cron: "49 22 * * 1"
-    - cron: "05 23 * * 1"
+    # Monday (10 posts)
+    - cron: "15 2,5,7,9,11,13,15,17,19,21 * * 1" # Every Monday at different hours
 
-    # Tuesday - completely random times
-    - cron: "31 2 * * 2"
-    - cron: "57 5 * * 2"
-    - cron: "19 7 * * 2"
-    - cron: "44 10 * * 2"
-    - cron: "03 13 * * 2"
-    - cron: "36 15 * * 2"
-    - cron: "51 17 * * 2"
-    - cron: "07 19 * * 2"
-    - cron: "29 21 * * 2"
-    - cron: "46 23 * * 2"
+    # Tuesday (10 posts)
+    - cron: "30 3,6,8,10,12,14,16,18,20,22 * * 2" # Every Tuesday at different hours
 
-    # Wednesday - completely random times
-    - cron: "23 1 * * 3"
-    - cron: "48 4 * * 3"
-    - cron: "12 7 * * 3"
-    - cron: "37 9 * * 3"
-    - cron: "55 12 * * 3"
-    - cron: "14 15 * * 3"
-    - cron: "41 17 * * 3"
-    - cron: "09 20 * * 3"
-    - cron: "33 22 * * 3"
-    - cron: "58 23 * * 3"
+    # Wednesday (10 posts)
+    - cron: "45 1,4,7,9,11,13,16,18,20,23 * * 3" # Every Wednesday at different hours
 
-    # Thursday - completely random times
-    - cron: "16 2 * * 4"
-    - cron: "43 4 * * 4"
-    - cron: "07 7 * * 4"
-    - cron: "52 10 * * 4"
-    - cron: "28 13 * * 4"
-    - cron: "13 16 * * 4"
-    - cron: "39 18 * * 4"
-    - cron: "21 20 * * 4"
-    - cron: "47 22 * * 4"
-    - cron: "04 23 * * 4"
+    # Thursday (10 posts)
+    - cron: "20 2,5,8,10,12,14,17,19,21,23 * * 4" # Every Thursday at different hours
 
-    # Friday - completely random times
-    - cron: "26 1 * * 5"
-    - cron: "54 3 * * 5"
-    - cron: "18 6 * * 5"
-    - cron: "45 9 * * 5"
-    - cron: "02 12 * * 5"
-    - cron: "35 14 * * 5"
-    - cron: "50 16 * * 5"
-    - cron: "06 19 * * 5"
-    - cron: "31 21 * * 5"
-    - cron: "59 23 * * 5"
+    # Friday (10 posts)
+    - cron: "10 3,6,8,10,12,15,17,19,21,22 * * 5" # Every Friday at different hours
 
-    # Saturday - completely random times
-    - cron: "24 2 * * 6"
-    - cron: "51 4 * * 6"
-    - cron: "15 7 * * 6"
-    - cron: "40 10 * * 6"
-    - cron: "01 13 * * 6"
-    - cron: "34 15 * * 6"
-    - cron: "53 17 * * 6"
-    - cron: "08 20 * * 6"
-    - cron: "32 22 * * 6"
-    - cron: "57 23 * * 6"
+    # Saturday (10 posts)
+    - cron: "25 1,4,7,9,11,14,16,18,20,22 * * 6" # Every Saturday at different hours
 
-    # Sunday - completely random times
-    - cron: "20 1 * * 0"
-    - cron: "46 3 * * 0"
-    - cron: "11 6 * * 0"
-    - cron: "38 9 * * 0"
-    - cron: "56 11 * * 0"
-    - cron: "15 14 * * 0"
-    - cron: "42 16 * * 0"
-    - cron: "03 19 * * 0"
-    - cron: "30 21 * * 0"
-    - cron: "55 23 * * 0"
+    # Sunday (10 posts)
+    - cron: "40 2,5,8,10,12,13,15,17,19,21 * * 0" # Every Sunday at different hours
 
 jobs:
   post:
