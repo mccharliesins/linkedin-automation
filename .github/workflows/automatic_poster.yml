@@ -3,25 +3,25 @@ name: Automatic LinkedIn Poster
 on:
   schedule:
     # Monday (10 posts)
-    - cron: "15 2,5,7,9,11,13,15,17,19,21 * * 1" # Every Monday at different hours
+    - cron: "19 2,5,7,9,11,13,15,17,19,21 * * 1" # Every Monday at different hours
 
     # Tuesday (10 posts)
-    - cron: "30 3,6,8,10,12,14,16,18,20,22 * * 2" # Every Tuesday at different hours
+    - cron: "32 3,6,8,10,12,14,16,18,20,22 * * 2" # Every Tuesday at different hours
 
     # Wednesday (10 posts)
-    - cron: "45 1,4,7,9,11,13,16,18,20,23 * * 3" # Every Wednesday at different hours
+    - cron: "47 1,4,7,9,11,13,16,18,20,23 * * 3" # Every Wednesday at different hours
 
     # Thursday (10 posts)
-    - cron: "13 0,5,8,10,12,14,17,19,21,23 * * 4" # Every Thursday at different hours
+    - cron: "13 2,5,8,10,12,14,17,19,21,23 * * 4" # Every Thursday at different hours
 
     # Friday (10 posts)
-    - cron: "10 3,6,8,10,12,15,17,19,21,22 * * 5" # Every Friday at different hours
+    - cron: "11 3,6,8,10,12,15,17,19,21,22 * * 5" # Every Friday at different hours
 
     # Saturday (10 posts)
-    - cron: "25 1,4,7,9,11,14,16,18,20,22 * * 6" # Every Saturday at different hours
+    - cron: "26 1,4,7,9,11,14,16,18,20,22 * * 6" # Every Saturday at different hours
 
     # Sunday (10 posts)
-    - cron: "40 2,5,8,10,12,13,15,17,19,21 * * 0" # Every Sunday at different hours
+    - cron: "44 2,5,8,10,12,13,15,17,19,21 * * 0" # Every Sunday at different hours
 
 jobs:
   post:
