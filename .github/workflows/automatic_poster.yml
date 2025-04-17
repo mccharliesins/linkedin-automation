@@ -9,13 +9,13 @@ on:
     - cron: "32 3,6,8,10,12,14,16,18,20,22 * * 2" # Every Tuesday at different hours
 
     # Wednesday (10 posts)
-    - cron: "47 1,4,7,9,11,13,16,18,20,23 * * 3" # Every Wednesday at different hours
+    - cron: "54 0,4,7,9,11,13,16,18,20,23 * * 3" # Every Wednesday at different hours
 
     # Thursday (10 posts)
-    - cron: "13 2,5,8,10,12,14,17,19,21,23 * * 4" # Every Thursday at different hours
+    - cron: "52 0,5,8,10,12,14,17,19,21,23 * * 4" # Every Thursday at different hours
 
     # Friday (10 posts)
-    - cron: "11 3,6,8,10,12,15,17,19,21,22 * * 5" # Every Friday at different hours
+    - cron: "50 0,6,8,10,12,15,17,19,21,22 * * 5" # Every Friday at different hours
 
     # Saturday (10 posts)
     - cron: "26 1,4,7,9,11,14,16,18,20,22 * * 6" # Every Saturday at different hours
