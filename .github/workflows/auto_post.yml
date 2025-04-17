@@ -1,16 +1,9 @@
-name: Auto Post Every 30 Minutes
+name: Auto Post Every 3 Hours
 
 on:
   schedule:
-    # Run every 30 minutes
-    - cron: "*/30 * * * *"
-  workflow_dispatch:
-    inputs:
-      debug:
-        description: "Run in debug mode"
-        required: false
-        type: boolean
-        default: false
+    # Run every 3 hours
+    - cron: "0 */3 * * *"
 
 jobs:
   post:
