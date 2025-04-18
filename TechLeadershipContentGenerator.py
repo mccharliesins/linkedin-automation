@@ -1,15 +1,22 @@
 import os
-import google.generativeai as genai
-from datetime import datetime
+import json
+import time
 import random
+import logging
+import requests
+from datetime import datetime
 from dotenv import load_dotenv
+
+# Configure logging
+logging.basicConfig(
+    level=os.getenv('LOG_LEVEL', 'INFO'),
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    filename=os.getenv('LOG_FILE', 'tech_leadership_content.log')
+)
+logger = logging.getLogger(__name__)
 
 # Load environment variables
 load_dotenv()
-
-# Configure the Gemini API
-genai.configure(api_key=os.getenv('GOOGLE_API_KEY'))
-model = genai.GenerativeModel('gemini-pro')
 
 # Major tech hubs in US, Canada, and London with their specific characteristics
 LOCATIONS = {
@@ -106,52 +113,85 @@ GENERAL_HASHTAGS = [
     "#ManagementTips", "#HRInnovation", "#TechTrends"
 ]
 
-def generate_content():
-    # Select a random location and its specific topics
-    location = random.choice(list(LOCATIONS.keys()))
-    location_data = LOCATIONS[location]
-    
-    # Combine location-specific and general topics
-    all_topics = location_data["topics"] + GENERAL_TOPICS
-    topic = random.choice(all_topics)
-    
-    # Select content type and format with location
-    content_type = random.choice(CONTENT_TYPES).format(topic=topic, location=location)
-    
-    # Generate the prompt
-    prompt = f"""Create a LinkedIn post for tech leaders, managers, and HR professionals about {content_type}.
-    The post should be:
-    - Professional and insightful
-    - Data-driven where possible
-    - Include practical takeaways specific to {location}
-    - Be engaging and thought-provoking
-    - Focus on actionable insights
-    - Be between 200-300 words
-    - Include relevant statistics or research findings about {location}
-    - End with a thought-provoking question
-    
-    Format the post with:
-    - A compelling opening
-    - 2-3 key points specific to {location}
-    - A clear conclusion
-    - A call to action or question
-    """
-    
-    # Generate the content
-    response = model.generate_content(prompt)
-    
-    # Combine location-specific and general hashtags
-    all_hashtags = location_data["hashtags"] + GENERAL_HASHTAGS
-    selected_hashtags = random.sample(all_hashtags, random.randint(5, 7))
-    
-    # Format the final post
-    post = f"{response.text}\n\n{' '.join(selected_hashtags)}"
-    
-    return post
+class TechLeadershipContentGenerator:
+    """Generates tech leadership content using Gemini API."""
+    def __init__(self, api_key):
+        self.api_key = api_key
+        self.api_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
+
+    def _make_request(self, prompt):
+        """Make a request to Gemini API."""
+        headers = {
+            'Content-Type': 'application/json'
+        }
+        data = {
+            "contents": [{
+                "parts": [{"text": prompt}]
+            }]
+        }
+        try:
+            response = requests.post(
+                f"{self.api_url}?key={self.api_key}",
+                headers=headers,
+                json=data
+            )
+            if response.status_code != 200:
+                raise Exception(f"API request failed: {response.text}")
+            return response.json()
+        except Exception as e:
+            logger.error(f"Request failed: {str(e)}")
+            raise
+
+    def generate_content(self):
+        """Generate tech leadership content."""
+        # Select a random location and its specific topics
+        location = random.choice(list(LOCATIONS.keys()))
+        location_data = LOCATIONS[location]
+        
+        # Combine location-specific and general topics
+        all_topics = location_data["topics"] + GENERAL_TOPICS
+        topic = random.choice(all_topics)
+        
+        # Select content type and format with location
+        content_type = random.choice(CONTENT_TYPES).format(topic=topic, location=location)
+        
+        # Generate the prompt
+        prompt = f"""Create a LinkedIn post for tech leaders, managers, and HR professionals about {content_type}.
+        The post should be:
+        - Professional and insightful
+        - Data-driven where possible
+        - Include practical takeaways specific to {location}
+        - Be engaging and thought-provoking
+        - Focus on actionable insights
+        - Be between 200-300 words
+        - Include relevant statistics or research findings about {location}
+        - End with a thought-provoking question
+        
+        Format the post with:
+        - A compelling opening
+        - 2-3 key points specific to {location}
+        - A clear conclusion
+        - A call to action or question
+        """
+        
+        # Generate the content
+        response = self._make_request(prompt)
+        content = response['candidates'][0]['content']['parts'][0]['text'].strip()
+        
+        # Combine location-specific and general hashtags
+        all_hashtags = location_data["hashtags"] + GENERAL_HASHTAGS
+        selected_hashtags = random.sample(all_hashtags, random.randint(5, 7))
+        
+        # Format the final post
+        post = f"{content}\n\n{' '.join(selected_hashtags)}"
+        
+        return post
 
 def main():
     try:
-        content = generate_content()
+        generator = TechLeadershipContentGenerator(os.getenv('GOOGLE_API_KEY'))
+        content = generator.generate_content()
+        
         print("Generated Content:")
         print("=" * 50)
         print(content)
