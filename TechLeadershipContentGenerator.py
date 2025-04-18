@@ -172,11 +172,16 @@ class TechLeadershipContentGenerator:
         - 2-3 key points specific to {location}
         - A clear conclusion
         - A call to action or question
+        
+        Important: Do not use any asterisks (*) or bold formatting in the text.
         """
         
         # Generate the content
         response = self._make_request(prompt)
         content = response['candidates'][0]['content']['parts'][0]['text'].strip()
+        
+        # Remove any asterisks from the content
+        content = content.replace('*', '')
         
         # Combine location-specific and general hashtags
         all_hashtags = location_data["hashtags"] + GENERAL_HASHTAGS
