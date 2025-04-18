@@ -2,6 +2,10 @@ import os
 import google.generativeai as genai
 from datetime import datetime
 import random
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Configure the Gemini API
 genai.configure(api_key=os.getenv('GOOGLE_API_KEY'))
