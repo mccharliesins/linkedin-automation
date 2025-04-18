@@ -7,35 +7,59 @@ import random
 genai.configure(api_key=os.getenv('GOOGLE_API_KEY'))
 model = genai.GenerativeModel('gemini-pro')
 
-# Major tech hubs and their specific characteristics
+# Major tech hubs in US, Canada, and London with their specific characteristics
 LOCATIONS = {
+    # US Cities
     "Silicon Valley": {
-        "topics": ["Startup Culture", "Venture Capital", "Tech Innovation", "Scale-up Strategies"],
-        "hashtags": ["#SiliconValley", "#SVStartups", "#BayAreaTech"]
+        "topics": ["Startup Culture", "Venture Capital", "Tech Innovation", "Scale-up Strategies", 
+                  "AI Development", "Tech Ecosystem", "Startup Funding", "Tech Talent Pool"],
+        "hashtags": ["#SiliconValley", "#SVStartups", "#BayAreaTech", "#TechSV", "#StartupSV"]
     },
     "New York": {
-        "topics": ["FinTech", "Corporate Innovation", "Tech in Finance", "Urban Tech Solutions"],
-        "hashtags": ["#NYCTech", "#FinTechNYC", "#NYCStartups"]
+        "topics": ["FinTech", "Corporate Innovation", "Tech in Finance", "Urban Tech Solutions",
+                  "Media Tech", "E-commerce", "Tech in Wall Street", "Startup Scene"],
+        "hashtags": ["#NYCTech", "#FinTechNYC", "#NYCStartups", "#TechNY", "#NYCInnovation"]
     },
+    "Boston": {
+        "topics": ["Biotech", "Healthcare Tech", "Education Tech", "Research & Development",
+                  "Life Sciences", "Academic Innovation", "Tech in Healthcare"],
+        "hashtags": ["#BostonTech", "#BioTech", "#EdTech", "#BostonStartups", "#TechBoston"]
+    },
+    "Austin": {
+        "topics": ["Tech Migration", "Startup Growth", "Tech Events", "Innovation Culture",
+                  "Tech Talent Attraction", "Business Relocation", "Tech Community"],
+        "hashtags": ["#AustinTech", "#ATXTech", "#TexasTech", "#AustinStartups", "#TechAustin"]
+    },
+    "Seattle": {
+        "topics": ["Cloud Computing", "E-commerce", "Tech Giants", "Software Development",
+                  "AI Research", "Tech Infrastructure", "Cloud Services"],
+        "hashtags": ["#SeattleTech", "#CloudTech", "#TechSeattle", "#PNWTech", "#SeattleStartups"]
+    },
+    
+    # Canadian Cities
+    "Toronto": {
+        "topics": ["Canadian Tech Hub", "FinTech Innovation", "AI Development", "Tech Talent",
+                  "Startup Ecosystem", "Tech Investment", "Diversity in Tech"],
+        "hashtags": ["#TorontoTech", "#CanadianTech", "#TechTO", "#TorontoStartups", "#TechCanada"]
+    },
+    "Vancouver": {
+        "topics": ["Tech in Gaming", "Sustainable Tech", "Clean Tech", "Tech Innovation",
+                  "Startup Scene", "Tech Talent", "Pacific Tech Hub"],
+        "hashtags": ["#VancouverTech", "#VanTech", "#TechVan", "#VancouverStartups", "#PacificTech"]
+    },
+    "Montreal": {
+        "topics": ["AI Research", "Gaming Industry", "Tech Innovation", "Bilingual Tech Talent",
+                  "Startup Culture", "Tech Education", "Creative Tech"],
+        "hashtags": ["#MontrealTech", "#MTLTech", "#TechMTL", "#MontrealStartups", "#QuebecTech"]
+    },
+    
+    # London
     "London": {
-        "topics": ["FinTech Innovation", "European Tech Market", "Tech Regulation", "International Expansion"],
-        "hashtags": ["#LondonTech", "#UKTech", "#TechUK"]
-    },
-    "Berlin": {
-        "topics": ["European Startup Scene", "Tech Talent in EU", "Sustainable Tech", "B2B Tech"],
-        "hashtags": ["#BerlinTech", "#GermanTech", "#EUTech"]
-    },
-    "Singapore": {
-        "topics": ["Asian Tech Market", "Smart Cities", "APAC Expansion", "Tech in Southeast Asia"],
-        "hashtags": ["#SingaporeTech", "#SGStartups", "#APACTech"]
-    },
-    "Bangalore": {
-        "topics": ["Indian Tech Ecosystem", "Global Tech Services", "Tech Talent Pool", "Emerging Markets"],
-        "hashtags": ["#BangaloreTech", "#IndianTech", "#TechIndia"]
-    },
-    "Tel Aviv": {
-        "topics": ["Deep Tech", "Cybersecurity", "Tech Innovation", "Startup Nation"],
-        "hashtags": ["#TelAvivTech", "#IsraeliTech", "#CyberTech"]
+        "topics": ["FinTech Innovation", "European Tech Market", "Tech Regulation", "International Expansion",
+                  "Tech Investment", "Startup Scene", "Tech Talent", "Digital Transformation",
+                  "Tech in Finance", "Innovation Culture", "Tech Policy", "Global Tech Hub"],
+        "hashtags": ["#LondonTech", "#UKTech", "#TechUK", "#LondonStartups", "#TechLondon",
+                    "#FinTechLondon", "#TechInnovation", "#DigitalLondon"]
     }
 }
 
