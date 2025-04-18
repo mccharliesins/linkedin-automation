@@ -210,36 +210,37 @@ class TechLeadershipContentGenerator:
         hook_style = random.choice(HOOK_STYLES).format(topic=topic)
         
         # Generate the prompt
-        prompt = f"""Create a LinkedIn post for tech leaders, managers, and HR professionals about {content_type}.
+        prompt = f"""Create a unique LinkedIn post for tech leaders, managers, and HR professionals about {content_type}.
 
-        Write this like you're talking to a friend who's a leader. Keep it real and easy to understand.
+        Write this like you're having a real conversation with a fellow leader. Be authentic and original.
 
         Follow this structure:
 
         1. OPENING (Hook):
         - Use this hook style: {hook_style}
-        - Make it feel like you're talking directly to them
-        - Keep it simple and honest
+        - Make it feel personal and direct
+        - Keep it fresh and unique
         - 1 line maximum
+        - Avoid clichés like "Let's be real" or "Here's the truth"
 
         2. THE REAL PROBLEM:
-        - Explain what's actually going wrong
-        - Share a simple stat or fact about {location}
-        - Make it feel relatable
+        - Share a genuine challenge you've noticed
+        - Include a specific insight about {location}
+        - Make it feel authentic
         - 2-3 lines maximum
-        - Use everyday words, no jargon
+        - Use your own words, not buzzwords
 
         3. THE WAY FORWARD:
-        - Share simple, practical steps
-        - Give real examples from {location}
-        - Make it feel doable
+        - Share practical, original solutions
+        - Use real examples from {location}
+        - Make it feel achievable
         - 3-4 lines maximum
-        - Keep it straightforward
+        - Be specific and concrete
 
         4. THE GOOD NEWS:
-        - End with hope and practical next steps
-        - Show it's not as hard as it seems
-        - Make them feel they can do this
+        - End with genuine encouragement
+        - Share a specific action they can take
+        - Make it feel personal
         - 1-2 lines maximum
 
         Format Requirements:
@@ -250,9 +251,15 @@ class TechLeadershipContentGenerator:
         - Use these bullet markers sparingly: 👉 💡 🔑
         - Make it easy to read
         - Plain text only (no markdown)
-        - Write like you're having a conversation
-        - Use simple words everyone understands
-        - Keep it real and honest
+        - Write in your own voice
+        - Be original and authentic
+        - Avoid overused phrases and clichés
+
+        Important:
+        - Don't use phrases like "Let's be real", "Here's the truth", or "Here's why"
+        - Don't start sentences with "Look" or "Listen"
+        - Be creative with your language
+        - Make each post feel unique
 
         Return only the formatted post text."""
         
