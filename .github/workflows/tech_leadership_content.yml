@@ -2,8 +2,14 @@ name: Tech Leadership Content Generator
 
 on:
   schedule:
-    # Run every 6 hours
-    - cron: "0 */6 * * *"
+    # Run every 4 hours
+    - cron: "0 */4 * * *"
+  workflow_dispatch:
+    inputs:
+      description:
+        description: "Generate and post tech leadership content manually"
+        required: false
+        default: "Manual run"
 
 jobs:
   generate:
@@ -25,6 +31,7 @@ jobs:
       - name: Generate Tech Leadership Content
         env:
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
         run: python TechLeadershipContentGenerator.py
 
       - name: Upload Generated Content
